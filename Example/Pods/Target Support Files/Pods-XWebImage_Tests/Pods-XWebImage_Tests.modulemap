@@ -1,0 +1,6 @@
+framework module Pods_XWebImage_Tests {
+  umbrella header "Pods-XWebImage_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module XWebImage {
+  umbrella header "XWebImage-umbrella.h"
+
+  export *
+  module * { export * }
+}

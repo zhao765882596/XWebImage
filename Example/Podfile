@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'XWebImage_Example' do
+  pod 'XWebImage', :path => '../'
+
+  target 'XWebImage_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
