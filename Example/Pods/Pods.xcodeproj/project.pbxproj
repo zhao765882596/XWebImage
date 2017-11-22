@@ -12,6 +12,19 @@
 		3AD4FAD41FC4292800222A3C /* UIImage_GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FAD11FC4292800222A3C /* UIImage_GIF.swift */; };
 		3AD4FAD51FC4292800222A3C /* Data_ImageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */; };
 		3AD4FAD61FC4292800222A3C /* Data_ImageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */; };
+		3AD4FAD81FC42A0500222A3C /* XMImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FAD71FC42A0500222A3C /* XMImageCache.swift */; };
+		3AD4FAD91FC42A0500222A3C /* XMImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FAD71FC42A0500222A3C /* XMImageCache.swift */; };
+		3AD4FADB1FC42C4A00222A3C /* XMImageCacheConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FADA1FC42C4A00222A3C /* XMImageCacheConfig.swift */; };
+		3AD4FADC1FC42C4A00222A3C /* XMImageCacheConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4FADA1FC42C4A00222A3C /* XMImageCacheConfig.swift */; };
+		3AF61A7A1FC5130700BC0174 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A791FC5130700BC0174 /* String+MD5.swift */; };
+		3AF61A7B1FC5130700BC0174 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A791FC5130700BC0174 /* String+MD5.swift */; };
+		3AF61A7D1FC5193800BC0174 /* XMWebImageCodersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A7C1FC5193800BC0174 /* XMWebImageCodersManager.swift */; };
+		3AF61A7E1FC51B9C00BC0174 /* XMWebImageCodersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A7C1FC5193800BC0174 /* XMWebImageCodersManager.swift */; };
+		3AF61A9E1FC5816300BC0174 /* XMWebImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A9D1FC5816300BC0174 /* XMWebImageFrame.swift */; };
+		3AF61AA01FC583B400BC0174 /* XMWebImageGIFCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A9F1FC583B400BC0174 /* XMWebImageGIFCoder.swift */; };
+		3AF61AA11FC5855100BC0174 /* XMWebImageGIFCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A9F1FC583B400BC0174 /* XMWebImageGIFCoder.swift */; };
+		3AF61AA31FC5882500BC0174 /* XMWebImageCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61AA21FC5882500BC0174 /* XMWebImageCoder.swift */; };
+		3AF61AA41FC58F3B00BC0174 /* XMWebImageCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61AA21FC5882500BC0174 /* XMWebImageCoder.swift */; };
 		5C2D5B07C5188EBA68B0C12AAE2674BB /* Pods-XWebImage_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F7B7F503A1125A9BA3DAE2FB48A28F04 /* Pods-XWebImage_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DAF9DE9D5394B841FD9B8A8177A6B78 /* Pods-XWebImage_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E09179D6D88991F4658E3602E3C3BD /* Pods-XWebImage_Tests-dummy.m */; };
 		70923364F85B1D757E91DC72C35AF487 /* Pods-XWebImage_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 734A20457DC4EA425D243F856C7432E4 /* Pods-XWebImage_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,6 +50,13 @@
 		3244ABEB26244965BA4CF864D80856AB /* Pods_XWebImage_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XWebImage_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD4FAD11FC4292800222A3C /* UIImage_GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_GIF.swift; path = XWebImage/Classes/UIImage_GIF.swift; sourceTree = "<group>"; };
 		3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Data_ImageContentType.swift; path = XWebImage/Classes/Data_ImageContentType.swift; sourceTree = "<group>"; };
+		3AD4FAD71FC42A0500222A3C /* XMImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMImageCache.swift; sourceTree = "<group>"; };
+		3AD4FADA1FC42C4A00222A3C /* XMImageCacheConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMImageCacheConfig.swift; sourceTree = "<group>"; };
+		3AF61A791FC5130700BC0174 /* String+MD5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
+		3AF61A7C1FC5193800BC0174 /* XMWebImageCodersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageCodersManager.swift; sourceTree = "<group>"; };
+		3AF61A9D1FC5816300BC0174 /* XMWebImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageFrame.swift; sourceTree = "<group>"; };
+		3AF61A9F1FC583B400BC0174 /* XMWebImageGIFCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageGIFCoder.swift; sourceTree = "<group>"; };
+		3AF61AA21FC5882500BC0174 /* XMWebImageCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageCoder.swift; sourceTree = "<group>"; };
 		4D38EA6505186693076D464ABC1948E7 /* Pods-XWebImage_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-XWebImage_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4DF206EAE5BAD04F8CE39FF5E785E661 /* Pods-XWebImage_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-XWebImage_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4F151C9CDDF4D493520CA474DC993CA3 /* Pods-XWebImage_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-XWebImage_Example-dummy.m"; sourceTree = "<group>"; };
@@ -186,8 +206,15 @@
 		CBBDB04A094F49E51E95241B7E3E973A /* XWebImage */ = {
 			isa = PBXGroup;
 			children = (
-				3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */,
 				3AD4FAD11FC4292800222A3C /* UIImage_GIF.swift */,
+				3AD4FAD71FC42A0500222A3C /* XMImageCache.swift */,
+				3AF61A9D1FC5816300BC0174 /* XMWebImageFrame.swift */,
+				3AD4FADA1FC42C4A00222A3C /* XMImageCacheConfig.swift */,
+				3AF61AA21FC5882500BC0174 /* XMWebImageCoder.swift */,
+				3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */,
+				3AF61A791FC5130700BC0174 /* String+MD5.swift */,
+				3AF61A9F1FC583B400BC0174 /* XMWebImageGIFCoder.swift */,
+				3AF61A7C1FC5193800BC0174 /* XMWebImageCodersManager.swift */,
 				BD5A4E6D7940925993FDB91B78518812 /* Support Files */,
 			);
 			name = XWebImage;
@@ -335,8 +362,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AD4FAD31FC4292800222A3C /* UIImage_GIF.swift in Sources */,
+				3AF61A9E1FC5816300BC0174 /* XMWebImageFrame.swift in Sources */,
+				3AD4FAD81FC42A0500222A3C /* XMImageCache.swift in Sources */,
+				3AD4FADB1FC42C4A00222A3C /* XMImageCacheConfig.swift in Sources */,
+				3AF61AA01FC583B400BC0174 /* XMWebImageGIFCoder.swift in Sources */,
+				3AF61A7B1FC5130700BC0174 /* String+MD5.swift in Sources */,
+				3AF61A7D1FC5193800BC0174 /* XMWebImageCodersManager.swift in Sources */,
 				E3511A2F1F498FE325F2555FA0474593 /* Pods-XWebImage_Example-dummy.m in Sources */,
 				3AD4FAD51FC4292800222A3C /* Data_ImageContentType.swift in Sources */,
+				3AF61AA31FC5882500BC0174 /* XMWebImageCoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,8 +387,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AD4FAD41FC4292800222A3C /* UIImage_GIF.swift in Sources */,
+				3AD4FAD91FC42A0500222A3C /* XMImageCache.swift in Sources */,
+				3AD4FADC1FC42C4A00222A3C /* XMImageCacheConfig.swift in Sources */,
+				3AF61A7A1FC5130700BC0174 /* String+MD5.swift in Sources */,
+				3AF61AA11FC5855100BC0174 /* XMWebImageGIFCoder.swift in Sources */,
+				3AF61A7E1FC51B9C00BC0174 /* XMWebImageCodersManager.swift in Sources */,
 				D2EDECD2C09F69C79EDB56F75E577474 /* XWebImage-dummy.m in Sources */,
 				3AD4FAD61FC4292800222A3C /* Data_ImageContentType.swift in Sources */,
+				3AF61AA41FC58F3B00BC0174 /* XMWebImageCoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,7 +37,7 @@ public enum  XMImageFormat: Int {
 }
 
 public extension Data {
-    public var imageFormat: XMImageFormat {
+    public var xm_imageFormat: XMImageFormat {
         var buffer = [UInt8](repeating: 0, count: 1)
         (self as NSData).getBytes(&buffer, length: 8)
         switch buffer[0] {
