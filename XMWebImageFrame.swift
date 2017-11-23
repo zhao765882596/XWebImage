@@ -7,8 +7,8 @@
 
 import Foundation
 public struct XMWebImageFrame {
-    var _image: UIImage!
-    var _duration: TimeInterval = 0.0
+    private var _image: UIImage!
+    private var _duration: TimeInterval = 0.0
 
     public var image: UIImage {
         return _image

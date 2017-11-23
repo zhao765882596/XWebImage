@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol XMWebImageCoder {
+public protocol XMWebImageCoder: NSObjectProtocol {
     func canDecode(data: Data?) -> Bool
     func decodedImage(data: Data?) -> UIImage?
     func decompressed(image: UIImage?, data: inout Data, options: Dictionary<String, Any>?) -> UIImage?
