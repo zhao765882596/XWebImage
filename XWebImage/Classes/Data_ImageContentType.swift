@@ -72,50 +72,6 @@ public extension Data {
         }
         return .undefined
     }
-//    var animatedGIF: UIImage? {
-//        guard let source = CGImageSourceCreateWithData(self as CFData, nil) else {
-//            return nil
-//        }
-//        let count = CGImageSourceGetCount(source)
-//        if count <= 1 {
-//            return UIImage.init(data: self)
-//        } else {
-//            var images: Array<UIImage> = []
-//            var duration: TimeInterval = 0.0;
-//
-//            for i in 0 ..< count {
-//                guard let cgimage = CGImageSourceCreateImageAtIndex(source, i, nil) else {
-//                    continue
-//                }
-//                var subDuration = frameDurationAtIndex(index: i, source: source)
-//
-//                if subDuration < 0.011 {
-//                    subDuration = 0.1
-//                }
-//                duration = duration + subDuration
-//                images.append(UIImage.init(cgImage: cgimage, scale: UIScreen.main.scale, orientation: .up))
-//            }
-//            if duration == 0.0 {
-//                duration = 1.0 / 10.0 * Double(count)
-//            }
-//            return UIImage.animatedImage(with: images, duration: duration)
-//        }
-//    }
-//    func frameDurationAtIndex(index: Int, source: CGImageSource)  -> TimeInterval {
-//        guard let dict = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? Dictionary<AnyHashable, Any> else {
-//            return 0.1
-//        }
-//        guard let gifProperties = dict[kCGImagePropertyGIFDictionary] as? Dictionary<AnyHashable, Any> else {
-//            return 0.1
-//        }
-//        guard let delayTimeUnclampedProp = gifProperties[kCGImagePropertyGIFUnclampedDelayTime] as? TimeInterval else {
-//            guard let delayTimeProp = gifProperties[kCGImagePropertyGIFDelayTime] as? TimeInterval else {
-//                return 0.1
-//            }
-//            return delayTimeProp
-//        }
-//        return delayTimeUnclampedProp
-//    }
 }
 
 
