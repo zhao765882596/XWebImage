@@ -18,10 +18,10 @@ public enum XMImageCacheType: Int {
     case memory = 2
 
 }
-public typealias XMCacheQueryCompleted = ((UIImage?, Data?, XMImageCacheType) -> Void)?
-public typealias XMWebImageCheckCacheCompletion = ((Bool) -> Void)?
-public typealias XMWebImageCalculateSize = ((Int, Int) -> Void)?
-public typealias XMWebImageNoParams = (() -> Void)?
+public typealias XMCacheQueryCompleted = ((UIImage?, Data?, XMImageCacheType) -> Void)
+public typealias XMWebImageCheckCacheCompletion = ((Bool) -> Void)
+public typealias XMWebImageCalculateSize = ((Int, Int) -> Void)
+public typealias XMWebImageNoParams = (() -> Void)
 
 
 class AutoPurgeCache: NSCache<AnyObject, AnyObject> {
@@ -109,7 +109,7 @@ public class XMImageCache {
     }
 // MARK: - Store Ops
 
-    public func store(image: UIImage? = nil,imageData:Data? = nil, forKey key: String, toDisk:Bool = true, completion: XMWebImageNoParams) {
+    public func store(image: UIImage? = nil,imageData:Data? = nil, forKey key: String, toDisk:Bool = true, completion: XMWebImageNoParams?) {
         func callHandlerInMainQueue() {
             if let handler = completion {
                 DispatchQueue.main.async {
@@ -167,7 +167,7 @@ public class XMImageCache {
         }
     }
 
-    public func diskImageExists(forKey key: String, completion: XMWebImageCheckCacheCompletion = nil) {
+    public func diskImageExists(forKey key: String, completion: XMWebImageCheckCacheCompletion? = nil) {
 
         ioQueue.async {
             var exists = self.fileManager.fileExists(atPath: self.defaultCachePath(forKey: key))
@@ -267,7 +267,7 @@ public class XMImageCache {
     }
 
     @discardableResult
-    public func queryCacheOperation(forKey key: String, done: XMCacheQueryCompleted) -> Operation? {
+    public func queryCacheOperation(forKey key: String, done: XMCacheQueryCompleted?) -> Operation? {
         if key.isEmpty {
             if done != nil {
                 done!(nil, nil, .none)
@@ -306,7 +306,7 @@ public class XMImageCache {
         return option
     }
 
-    public func removeImage(key: String, fromDisk: Bool = true, completion: XMWebImageNoParams) {
+    public func removeImage(key: String, fromDisk: Bool = true, completion: XMWebImageNoParams?) {
         if key.isEmpty {
             return
         }
@@ -334,7 +334,7 @@ public class XMImageCache {
     @objc public func clearMemory() {
         memCache.removeAllObjects()
     }
-    public func clearDisk(_ completion: XMWebImageNoParams) {
+    public func clearDisk(_ completion: XMWebImageNoParams?) {
         ioQueue.async {
             try? self.fileManager.removeItem(atPath: self.diskCachePath)
             try? self.fileManager.createDirectory(atPath: self.diskCachePath, withIntermediateDirectories: true, attributes: nil)
@@ -346,7 +346,7 @@ public class XMImageCache {
             }
         }
     }
-    @objc public func deleteOldFiles(_ completion: XMWebImageNoParams = nil) {
+    @objc public func deleteOldFiles(_ completion: XMWebImageNoParams? = nil) {
         ioQueue.async {
             let diskCacheURL = URL.init(fileURLWithPath: self.diskCachePath, isDirectory: true)
             let resourceKeys = [URLResourceKey.isDirectoryKey, URLResourceKey.contentModificationDateKey, URLResourceKey.totalFileAllocatedSizeKey]
@@ -428,7 +428,7 @@ public class XMImageCache {
         }
         return count
     }
-    public func calculateSize(completion: XMWebImageCalculateSize) {
+    public func calculateSize(completion: XMWebImageCalculateSize?) {
         let diskCacheURL = URL.init(fileURLWithPath: diskCachePath, isDirectory: true)
         ioQueue.async {
             var fileCount = 0

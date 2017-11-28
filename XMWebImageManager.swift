@@ -22,6 +22,7 @@ public enum XMWebImageOptions: Int {
     case scaleDownLargeImages = 12
 }
 
+public typealias XMInternalCompletion = ((UIImage?, Data?, Error?, XMImageCacheType, Bool, URL?) -> Void)
 
 
 
@@ -30,7 +31,7 @@ public class XMWebImageManager {
     public func cancelAll() {
 
     }
-    public func loadImage(url: URL?, options: XMWebImageOptions, progress:XMWebImageDownloaderProgress, completed: XMInternalCompletion) {
+    public func loadImage(url: URL?, options: XMWebImageOptions, progress:XMWebImageDownloaderProgress?, completed: XMInternalCompletion?) {
 
     }
 

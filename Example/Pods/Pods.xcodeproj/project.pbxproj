@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1EC7B2D3CB4F2D59D1AF5260B3E20A9C /* XWebImage-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E54B3390B068BC81E6396D275618253E /* XWebImage-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A30EA641FCD32AB0065E6FC /* XMWebImageDownloaderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A30EA621FCD31830065E6FC /* XMWebImageDownloaderOperation.swift */; };
 		3A3DE73B1FC65FCA0001DF8A /* XMWebImageCoderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DE73A1FC65FCA0001DF8A /* XMWebImageCoderHelper.swift */; };
 		3A3DE73C1FC660300001DF8A /* XMWebImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61A9D1FC5816300BC0174 /* XMWebImageFrame.swift */; };
 		3A3DE73E1FC694860001DF8A /* XMWebImageImageIOCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DE73D1FC694860001DF8A /* XMWebImageImageIOCoder.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		1494CADD82EE8102CC66B4C807964AD6 /* Pods-XWebImage_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-XWebImage_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		3244ABEB26244965BA4CF864D80856AB /* Pods_XWebImage_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XWebImage_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A30EA621FCD31830065E6FC /* XMWebImageDownloaderOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageDownloaderOperation.swift; sourceTree = "<group>"; };
 		3A3DE73A1FC65FCA0001DF8A /* XMWebImageCoderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageCoderHelper.swift; sourceTree = "<group>"; };
 		3A3DE73D1FC694860001DF8A /* XMWebImageImageIOCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImageImageIOCoder.swift; sourceTree = "<group>"; };
 		3A3DE7421FC6B4860001DF8A /* XMWebImagePrefetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMWebImagePrefetcher.swift; sourceTree = "<group>"; };
@@ -218,9 +220,10 @@
 				3AF61A7C1FC5193800BC0174 /* XMWebImageCodersManager.swift */,
 				3AF61A9F1FC583B400BC0174 /* XMWebImageGIFCoder.swift */,
 				3A3DE7421FC6B4860001DF8A /* XMWebImagePrefetcher.swift */,
+				3A3DE7491FC6BE220001DF8A /* XMWebImageDownloader.swift */,
 				3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */,
 				3A3DE7451FC6B8430001DF8A /* XMWebImageManager.swift */,
-				3A3DE7491FC6BE220001DF8A /* XMWebImageDownloader.swift */,
+				3A30EA621FCD31830065E6FC /* XMWebImageDownloaderOperation.swift */,
 				3A3DE73D1FC694860001DF8A /* XMWebImageImageIOCoder.swift */,
 				BD5A4E6D7940925993FDB91B78518812 /* Support Files */,
 			);
@@ -388,6 +391,7 @@
 				3AD4FAD41FC4292800222A3C /* UIImage_GIF.swift in Sources */,
 				3AD4FAD91FC42A0500222A3C /* XMImageCache.swift in Sources */,
 				3A3DE7471FC6B8430001DF8A /* XMWebImageManager.swift in Sources */,
+				3A30EA641FCD32AB0065E6FC /* XMWebImageDownloaderOperation.swift in Sources */,
 				3AD4FADC1FC42C4A00222A3C /* XMImageCacheConfig.swift in Sources */,
 				3AF61A7A1FC5130700BC0174 /* String+MD5.swift in Sources */,
 				3A3DE73E1FC694860001DF8A /* XMWebImageImageIOCoder.swift in Sources */,

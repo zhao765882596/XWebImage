@@ -16,8 +16,8 @@ extension XMWebImagePrefetcherDelegate {
     public func image(Prefetcher: XMWebImagePrefetcher,  didFinishWithTotalCount count: Int, skippedCount: Int) {}
 }
 
-public typealias SDWebImagePrefetcherCompletion = ((Int, Int) -> Void)?
-public typealias SDWebImagePrefetcherProgress = ((Int, Int) -> Void)?
+public typealias SDWebImagePrefetcherCompletion = ((Int, Int) -> Void)
+public typealias SDWebImagePrefetcherProgress = ((Int, Int) -> Void)
 
 public class XMWebImagePrefetcher {
     public static let shared = XMWebImagePrefetcher.init(manager: XMWebImageManager())
@@ -45,8 +45,8 @@ public class XMWebImagePrefetcher {
     private var skippedCount = 0
     private var finishedCount = 0
     private var startedTime: TimeInterval = 0
-    private var completion: SDWebImagePrefetcherCompletion
-    private var progress: SDWebImagePrefetcherProgress
+    private var completion: SDWebImagePrefetcherCompletion?
+    private var progress: SDWebImagePrefetcherProgress?
 
 
 
@@ -55,7 +55,7 @@ public class XMWebImagePrefetcher {
         maxConcurrentDownloads = 3
     }
 
-    public func prefetch(URLs: Array<URL>?, progress: SDWebImagePrefetcherProgress = nil, completed: SDWebImagePrefetcherCompletion = nil) {
+    public func prefetch(URLs: Array<URL>?, progress: SDWebImagePrefetcherProgress? = nil, completed: SDWebImagePrefetcherCompletion? = nil) {
         cancelPrefetching()
         startedTime = CFAbsoluteTimeGetCurrent()
         prefetchURLs = URLs ?? []
