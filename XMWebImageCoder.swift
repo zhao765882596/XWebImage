@@ -43,3 +43,9 @@ func XMCGImageRefContainsAlpha(cgImage: CGImage?) -> Bool {
     }
     return true
 }
+
+protocol XMWebImageProgressiveCoder {
+    func canIncrementallyDecode(data: Data?) -> Bool
+    func incrementallyDecodedImage(data: Data?, isFinished: Bool) -> UIImage?
+
+}

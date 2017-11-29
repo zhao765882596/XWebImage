@@ -24,13 +24,13 @@ public enum XMWebImageDownloaderExecutionOrder: Int {
 }
 
 public typealias XMWebImageDownloaderProgress = ((Int, Int, URL?) -> Void)
-public typealias SDWebImageDownloaderCompleted = ((UIImage?, Data?, Error?, Bool) -> Void)
+public typealias XMWebImageDownloaderCompleted = ((UIImage?, Data?, Error?, Bool) -> Void)
 public typealias XMHTTPHeadersDictionary = Dictionary<String, String>
 public typealias XMWebImageDownloaderHeadersFilter = ((URL?, XMHTTPHeadersDictionary?) -> XMHTTPHeadersDictionary?)
 
 public class XMWebImageDownloadToken {
     var url: URL?
-    var downloadOperationCancelToken: Any?
+    var downloadOperationCancelToken: Dictionary<String, Any>?
 }
 
 public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
@@ -125,7 +125,7 @@ public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
     public func cancelAllDownloads() {
         downloadQueue.cancelAllOperations()
     }
-    public func loadImage(url: URL?, options: XMWebImageDownloaderOptions, progress:XMWebImageDownloaderProgress?, completed: SDWebImageDownloaderCompleted?) -> XMWebImageDownloadToken? {
+    public func loadImage(url: URL?, options: XMWebImageDownloaderOptions, progress:XMWebImageDownloaderProgress?, completed: XMWebImageDownloaderCompleted?) -> XMWebImageDownloadToken? {
         guard let loadUrl = url else { return  nil}
 
         return addProgressCallback(progress: progress, completed: completed, forURL: loadUrl, createCallback: {[weak self] () -> XMWebImageDownloaderOperationInterface? in
@@ -166,7 +166,7 @@ public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
             return operation
         })
     }
-    private func addProgressCallback(progress:XMWebImageDownloaderProgress?, completed: SDWebImageDownloaderCompleted?, forURL url: URL?, createCallback: (() -> XMWebImageDownloaderOperationInterface?)?) -> XMWebImageDownloadToken?{
+    private func addProgressCallback(progress:XMWebImageDownloaderProgress?, completed: XMWebImageDownloaderCompleted?, forURL url: URL?, createCallback: (() -> XMWebImageDownloaderOperationInterface?)?) -> XMWebImageDownloadToken?{
         guard let loadUrl = url else {
             if completed != nil {
                 completed!(nil, nil, nil, false)
@@ -195,9 +195,7 @@ public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
                     }
                 }
             }
-            token = XMWebImageDownloadToken()
-            token?.url = loadUrl
-            token?.downloadOperationCancelToken =  operation?.addHandlers(progressBlock: progress, completed: completed)
+            token = operation?.addHandlers(forURL: loadUrl,progressBlock: progress, completed: completed)
         }
         return token
     }

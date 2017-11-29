@@ -27,12 +27,16 @@ public typealias XMInternalCompletion = ((UIImage?, Data?, Error?, XMImageCacheT
 
 
 public class XMWebImageManager {
+    static var shared = XMWebImageManager()
     public var imageDownloader = XMWebImageDownloader()
     public func cancelAll() {
 
     }
     public func loadImage(url: URL?, options: XMWebImageOptions, progress:XMWebImageDownloaderProgress?, completed: XMInternalCompletion?) {
 
+    }
+    public func cacheKey(url: URL?) -> String? {
+        return ""
     }
 
     
