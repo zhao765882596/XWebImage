@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public enum XMWebImageDownloaderOptions: Int {
+public enum XMWebImageDownloaderOption: Int {
     case lowPriority = 0
     case progressiveDownload = 1
     case useNSURLCache = 2
@@ -16,8 +16,8 @@ public enum XMWebImageDownloaderOptions: Int {
     case allowInvalidSSLCertificates = 6
     case highPriority = 7
     case scaleDownLargeImages = 8
-
 }
+public typealias XMWebImageDownloaderOptions = Set<XMWebImageDownloaderOption>
 public enum XMWebImageDownloaderExecutionOrder: Int {
     case FIFO = 0
     case LIFO = 1
@@ -125,7 +125,7 @@ public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
     public func cancelAllDownloads() {
         downloadQueue.cancelAllOperations()
     }
-    public func loadImage(url: URL?, options: XMWebImageDownloaderOptions, progress:XMWebImageDownloaderProgress?, completed: XMWebImageDownloaderCompleted?) -> XMWebImageDownloadToken? {
+    public func downloadImage(url: URL?, options: XMWebImageDownloaderOptions, progress:XMWebImageDownloaderProgress?, completed: XMWebImageDownloaderCompleted?) -> XMWebImageDownloadToken? {
         guard let loadUrl = url else { return  nil}
 
         return addProgressCallback(progress: progress, completed: completed, forURL: loadUrl, createCallback: {[weak self] () -> XMWebImageDownloaderOperationInterface? in
@@ -133,9 +133,9 @@ public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
             if timeoutInterval <= 0.0 {
                 timeoutInterval = 15.0
             }
-            let cachePolicy = options == .useNSURLCache ? NSURLRequest.CachePolicy.useProtocolCachePolicy : NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
+            let cachePolicy = options.contains(.useNSURLCache) ? NSURLRequest.CachePolicy.useProtocolCachePolicy : NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
             var request = URLRequest.init(url: loadUrl, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
-            request.httpShouldHandleCookies = (options == .handleCookies)
+            request.httpShouldHandleCookies = (options.contains(.handleCookies))
             request.httpShouldUsePipelining = true
             if self?.headersFilter != nil {
                 request.allHTTPHeaderFields = self?.headersFilter!(loadUrl, self?.HTTPHeaders)
@@ -152,9 +152,9 @@ public class XMWebImageDownloader: NSObject, URLSessionDataDelegate {
             if operation is Operation {
                 let operation1 = operation as! Operation
 
-                if options == .highPriority {
+                if options.contains(.highPriority) {
                     operation1.queuePriority = .high
-                } else if options == .lowPriority  {
+                } else if options.contains(.lowPriority)  {
                     operation1.queuePriority = .low
                 }
                 self?.downloadQueue.addOperation(operation1)

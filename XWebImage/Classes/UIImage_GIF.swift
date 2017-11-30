@@ -50,3 +50,6 @@ public extension UIImage {
 
     
 }
+//objc_sync_enter(self)
+//objc_sync_exit(self)
+

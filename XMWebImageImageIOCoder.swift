@@ -6,7 +6,19 @@
 //
 
 import Foundation
-class XMWebImageImageIOCoder: NSObject, XMWebImageCoder {
+public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
+    func canIncrementallyDecode(data: Data?) -> Bool {
+        if data?.xm_imageFormat != .webP {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func incrementallyDecodedImage(data: Data?, isFinished: Bool) -> UIImage? {
+        return nil
+    }
+    
     static let shared = XMWebImageImageIOCoder()
 
 

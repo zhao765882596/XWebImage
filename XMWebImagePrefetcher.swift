@@ -36,7 +36,7 @@ public class XMWebImagePrefetcher {
 
         }
     }
-    public var options:XMWebImageOptions = .lowPriority
+    public var options:XMWebImageOptions = [.lowPriority]
     public var prefetcherQueue = DispatchQueue.main
     public var delegate: XMWebImagePrefetcherDelegate?
 

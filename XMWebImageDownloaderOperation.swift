@@ -7,16 +7,17 @@
 
 import Foundation
 
-public protocol XMWebImageDownloaderOperationInterface: NSObjectProtocol {
+public protocol XMWebImageDownloaderOperationInterface: XMWebImageOperation {
     init?(request: URLRequest?, session: URLSession?, options: XMWebImageDownloaderOptions)
     func addHandlers(forURL url: URL?, progressBlock:XMWebImageDownloaderProgress?, completed: XMWebImageDownloaderCompleted?) -> XMWebImageDownloadToken?
 
     var shouldDecompressImages: Bool {set get}
     var credential: URLCredential? {set get}
 }
-extension XMWebImageDownloaderOperationInterface {
-
+public protocol XMWebImageOperation: NSObjectProtocol {
+    func cancel()
 }
+
 let ProgressCallbackKey = "progress"
 let CompletedCallbackKey = "completed"
 
@@ -50,7 +51,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
     public var request: URLRequest?{
         return _request
     }
-    private var _optionst: XMWebImageDownloaderOptions = .lowPriority
+    private var _optionst: XMWebImageDownloaderOptions = [.lowPriority]
 
     public var options: XMWebImageDownloaderOptions{
         return _optionst
@@ -126,12 +127,13 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
         return shouldCancel
     }
     public override func start() {
+        objc_sync_enter(self)
         if isCancelled {
             _finished = true
             reset()
             return
         }
-        if options == .continueInBackground {
+        if options.contains(.continueInBackground) {
             backgroundTaskId = UIApplication.shared.beginBackgroundTask(expirationHandler: {[weak self] in
 
                 self?.cancel()
@@ -139,7 +141,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
                 self?.backgroundTaskId = UIBackgroundTaskInvalid
             })
         }
-        if options == .ignoreCachedResponse && self.request != nil {
+        if options.contains(.ignoreCachedResponse) && self.request != nil {
             let cachedResponse = URLCache.shared.cachedResponse(for: self.request!)
             if cachedResponse != nil {
                 self.cachedData = cachedResponse?.data
@@ -157,6 +159,8 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
             _dataTask = session?.dataTask(with: request!)
             _executing = true
         }
+        objc_sync_exit(self)
+
         dataTask?.resume()
         if dataTask != nil {
             for callback in callbacks(forKey: ProgressCallbackKey) {
@@ -172,6 +176,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
     }
 
     public override func cancel() {
+        objc_sync_enter(self)
         if _finished {
             return
         }
@@ -186,6 +191,8 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
             _finished = true
         }
         reset()
+        objc_sync_exit(self)
+
     }
     func done() {
         _executing = false
@@ -242,7 +249,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
             imageData = Data()
         }
         imageData?.append(data)
-        if options == .progressiveDownload && expectedSize > 0 {
+        if options.contains(.progressiveDownload) && expectedSize > 0 {
             if progressiveCoder == nil {
                 for coder in XMWebImageCodersManager.shared.coders {
                     if coder is XMWebImageProgressiveCoder && (coder as? XMWebImageProgressiveCoder)?.canIncrementallyDecode(data: imageData) == true {
@@ -282,7 +289,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
         } else {
             if callbacks(forKey: CompletedCallbackKey).count > 0 {
                 if imageData != nil {
-                    if options == .ignoreCachedResponse && cachedData == imageData {
+                    if options.contains(.ignoreCachedResponse) && cachedData == imageData {
                         callCompletionBlocks(image: nil, imageData: nil, error: nil, isFinished: true)
                     } else {
                         var image = XMWebImageCodersManager.shared.decodedImage(data: imageData)
@@ -291,7 +298,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
                         let shouldDecode = image?.images != nil ? false : true
                         if shouldDecode {
                             if shouldDecompressImages {
-                                image = XMWebImageCodersManager.shared.decompressed(image: image, data: &imageData!, options: [XMWebImageCoderScaleDownLargeImagesKey: options == .scaleDownLargeImages])
+                                image = XMWebImageCodersManager.shared.decompressed(image: image, data: &imageData!, options: [XMWebImageCoderScaleDownLargeImagesKey: options.contains(.scaleDownLargeImages)])
                             }
                         }
                         if image?.size == CGSize.zero {
@@ -313,7 +320,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
         var disposition = URLSession.AuthChallengeDisposition.performDefaultHandling
         var credential: URLCredential?
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-            if options != .allowInvalidSSLCertificates {
+            if !options.contains(.allowInvalidSSLCertificates) {
                 disposition = .performDefaultHandling
             } else {
                 if challenge.protectionSpace.serverTrust != nil {
