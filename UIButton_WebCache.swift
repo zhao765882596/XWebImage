@@ -15,32 +15,29 @@ fileprivate func backgroundImageURLKey(state: UIControlState) -> String {
     return String.init(format: "backgroundImage_%lu", state.rawValue)
 }
 
-extension UIButton {
-    func xm_currentImageURL() -> URL? {
+public extension UIButton {
+    public func xm_currentImageURL() -> URL? {
         var url = imageURLStorage[imageURLKey(state: self.state)]
         if url == nil {
             url = imageURLStorage[imageURLKey(state: .normal)]
         }
         return url
     }
-    func xm_imageURL(state: UIControlState) -> URL? {
+    public func xm_currentBackgroundImageURL() -> URL? {
+        var url = imageURLStorage[backgroundImageURLKey(state: self.state)]
+        if url == nil {
+            url = imageURLStorage[backgroundImageURLKey(state: .normal)]
+        }
+        return url
+    }
+    public func xm_imageURL(state: UIControlState) -> URL? {
         return imageURLStorage[imageURLKey(state: state)]
     }
-    private var imageURLStorage: Dictionary<String, URL> {
-        set {
-
-        }
-        get {
-            var dict = objc_getAssociatedObject(self, RuntimeKey.imageURLStorageKey!) as? Dictionary<String, URL>
-            if dict == nil {
-                dict = [:]
-                objc_setAssociatedObject(self, RuntimeKey.imageURLStorageKey!, dict!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            }
-            return dict!
-        }
-
+    public func xm_backgroundImageURL(state: UIControlState) -> URL? {
+        return imageURLStorage[backgroundImageURLKey(state: state)]
     }
-    func xm_setImage(url: URLConvertible? = nil, forState state: UIControlState = [], placeholder: UIImage? = nil, options: XMWebImageOptions = [], completedBlock: XMExternalCompletion? = nil) {
+
+    public func xm_setImage(url: URLConvertible? = nil, forState state: UIControlState = [], placeholder: UIImage? = nil, options: XMWebImageOptions = [], completedBlock: XMExternalCompletion? = nil) {
         var imageUrl = url?.asURL()
 
         if imageUrl == nil {
@@ -50,9 +47,9 @@ extension UIButton {
         }
         xm_internalSetImage(url: url, placeholder: placeholder, operationKey: String.init(format: "UIButtonImageOperation%@", state.rawValue), setImageBlock: { [weak self](image, imageData) in
             self?.setImage(image, for: state)
-        }, progressBlock: nil, completedBlock: completedBlock, context: nil)
+        }, progressBlock: nil, completedBlock: completedBlock)
     }
-    func xm_setBackgroundImage(url: URLConvertible? = nil, forState state: UIControlState = .normal, placeholder: UIImage? = nil, options: XMWebImageOptions = [], completedBlock: XMExternalCompletion? = nil) {
+    public func xm_setBackgroundImage(url: URLConvertible? = nil, forState state: UIControlState = .normal, placeholder: UIImage? = nil, options: XMWebImageOptions = [], completedBlock: XMExternalCompletion? = nil) {
         var imageUrl = url?.asURL()
 
         if imageUrl == nil {
@@ -62,24 +59,42 @@ extension UIButton {
         }
         xm_internalSetImage(url: url, placeholder: placeholder, operationKey: String.init(format: "UIButtonBackgroundImageOperation%@", state.rawValue), setImageBlock: { [weak self](image, imageData) in
             self?.setBackgroundImage(image, for: state)
-            }, progressBlock: nil, completedBlock: completedBlock, context: nil)
+            }, progressBlock: nil, completedBlock: completedBlock)
     }
-    func xm_setImageLoadOperation(operation: XMWebImageOption? = nil, forState state:UIControlState = .normal) {
+    func xm_setImageLoadOperation(operation: XMWebImageOperation? = nil, forState state:UIControlState = .normal) {
         xm_setImageLoad(operation: operation, forKey: String.init(format: "UIButtonImageOperation%@", state.rawValue))
     }
-    func xm_setBackgroundImageLoadOperation(operation: XMWebImageOption? = nil, forState state:UIControlState = .normal) {
+    func xm_setBackgroundImageLoadOperation(operation: XMWebImageOperation? = nil, forState state:UIControlState = .normal) {
         xm_setImageLoad(operation: operation, forKey: String.init(format: "UIButtonBackgroundImageOperation%@", state.rawValue))
     }
-    func xm_cancelImageLoad(forState state:UIControlState = .normal) {
+    public func xm_cancelImageLoad(forState state:UIControlState = .normal) {
         xm_cancelImageLoadOperation(withKey: String.init(format: "UIButtonImageOperation%@", state.rawValue))
 
     }
-    func xm_cancelBackgroundImageLoad(forState state:UIControlState = .normal) {
+    public func xm_cancelBackgroundImageLoad(forState state:UIControlState = .normal) {
         xm_cancelImageLoadOperation(withKey: String.init(format: "UIButtonBackgroundImageOperation%@", state.rawValue))
     }
 
 
 
+
+
+}
+fileprivate extension UIButton {
+    var imageURLStorage: Dictionary<String, URL> {
+        set {
+
+        }
+        get {
+            var dict = objc_getAssociatedObject(self, RuntimeKey.buttonImageURLStorageKey!) as? Dictionary<String, URL>
+            if dict == nil {
+                dict = [:]
+                objc_setAssociatedObject(self, RuntimeKey.buttonImageURLStorageKey!, dict!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+            return dict!
+        }
+
+    }
 
 
 }

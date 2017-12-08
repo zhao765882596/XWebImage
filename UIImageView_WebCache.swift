@@ -8,13 +8,13 @@
 import Foundation
 extension UIImageView {
     func xm_setImage(url: URLConvertible?, placeholder: UIImage? = nil, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
-        xm_internalSetImage(url: url, placeholder: placeholder, operationKey: nil, setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock, context: nil)
+        xm_internalSetImage(url: url, placeholder: placeholder, operationKey: nil, setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock)
     }
     func xm_setImageWithPreviousCachedImage(url: URLConvertible?, placeholder: UIImage? = nil, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
         let key = XMWebImageManager.shared.cacheKey(url: url?.asURL())
         let lastPreviousCachedImage = XMImageCache.shared.imageFromCache(forKey: key ?? "")
 
-        xm_internalSetImage(url: url, placeholder: lastPreviousCachedImage ?? placeholder, operationKey: nil, setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock, context: nil)
+        xm_internalSetImage(url: url, placeholder: lastPreviousCachedImage ?? placeholder, operationKey: nil, setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock)
     }
     func xm_setAnimationImages(urls: Array<URL>) {
         xm_cancelCurrentAnimationImagesLoad()
@@ -50,9 +50,7 @@ extension UIImageView {
     func xm_setHighlightedImage(url: URLConvertible?, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
         xm_internalSetImage(url: url, placeholder: nil, options: options, operationKey: "UIImageViewImageOperationHighlighted", setImageBlock: {[weak self] (image, imageData) in
             self?.highlightedImage = image
-        }, progressBlock: progressBlock, completedBlock: completedBlock, context: nil)
-
-        xm_internalSetImage(url: url, placeholder: nil, operationKey: "UIImageViewImageOperationHighlighted", setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock, context: nil)
+        }, progressBlock: progressBlock, completedBlock: completedBlock)
     }
 
 

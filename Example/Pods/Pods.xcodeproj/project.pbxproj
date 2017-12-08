@@ -229,11 +229,11 @@
 				3A3DE7491FC6BE220001DF8A /* XMWebImageDownloader.swift */,
 				3A30EA621FCD31830065E6FC /* XMWebImageDownloaderOperation.swift */,
 				3A3DE7451FC6B8430001DF8A /* XMWebImageManager.swift */,
-				3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */,
-				3A3DE73D1FC694860001DF8A /* XMWebImageImageIOCoder.swift */,
-				3A468A0B1FCFE525001BF339 /* UIView_WebCache.swift */,
 				3A468A0E1FCFF963001BF339 /* UIImageView_WebCache.swift */,
 				3A468A101FD008D1001BF339 /* UIButton_WebCache.swift */,
+				3AD4FAD21FC4292800222A3C /* Data_ImageContentType.swift */,
+				3A468A0B1FCFE525001BF339 /* UIView_WebCache.swift */,
+				3A3DE73D1FC694860001DF8A /* XMWebImageImageIOCoder.swift */,
 				BD5A4E6D7940925993FDB91B78518812 /* Support Files */,
 			);
 			name = XWebImage;

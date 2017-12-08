@@ -230,7 +230,7 @@ public class XMImageCache {
         var image = XMWebImageCodersManager.shared.decodedImage(data: data)
         image = scaled(image: image, forKey: key)
         if config.shouldDecompressImages {
-            image = XMWebImageCodersManager.shared.decompressed(image: image, data: &data, options: [XMWebImageCoderScaleDownLargeImagesKey: false])
+            image = XMWebImageCodersManager.shared.decompressed(image: image, data: &data, isScaleDownLargeImages:  false)
         }
         return image
     }

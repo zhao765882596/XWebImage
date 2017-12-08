@@ -50,7 +50,7 @@ public enum XMWebImageOption: Int {
     case highPriority  = 8
     case delayPlaceholder = 9
     case transformAnimatedImage = 10
-    case aAoidAutoSetImage = 11
+    case avoidAutoSetImage = 11
     case scaleDownLargeImages = 12
 }
 public typealias XMWebImageOptions = Set<XMWebImageOption>

@@ -10,7 +10,7 @@ import Foundation
 public protocol XMWebImageCoder: NSObjectProtocol {
     func canDecode(data: Data?) -> Bool
     func decodedImage(data: Data?) -> UIImage?
-    func decompressed(image: UIImage?, data: inout Data, options: Dictionary<String, Any>?) -> UIImage?
+    func decompressed(image: UIImage?, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage?
     func canEncode(format: XMImageFormat) -> Bool
     func encodedData(image: UIImage?, format: XMImageFormat) -> Data?
 }
@@ -21,7 +21,7 @@ public extension XMWebImageCoder {
     func decodedImage(data: Data?) -> UIImage? {
         return nil
     }
-    func decompressed(image: UIImage?, data: inout Data, options: Dictionary<String, Any>?) -> UIImage? {
+    func decompressed(image: UIImage?, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage? {
         return nil
     }
     func canEncode(format: XMImageFormat) -> Bool {
@@ -44,7 +44,7 @@ func XMCGImageRefContainsAlpha(cgImage: CGImage?) -> Bool {
     return true
 }
 
-protocol XMWebImageProgressiveCoder: XMWebImageCoder {
+public protocol XMWebImageProgressiveCoder: XMWebImageCoder {
     func canIncrementallyDecode(data: Data?) -> Bool
     func incrementallyDecodedImage(data: Data?, isFinished: Bool) -> UIImage?
 

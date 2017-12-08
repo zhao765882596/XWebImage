@@ -264,7 +264,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
                 image = XMImageCache.shared.scaled(image: image, forKey: key ?? "")
                 if shouldDecompressImages {
                     var imageData = data
-                    image = XMWebImageCodersManager.shared.decompressed(image: image, data: &imageData, options: [XMWebImageCoderScaleDownLargeImagesKey: false])
+                    image = XMWebImageCodersManager.shared.decompressed(image: image, data: &imageData, isScaleDownLargeImages: false)
                 }
                 callCompletionBlocks(image: image, imageData: nil, error: nil, isFinished: false)
             }
@@ -298,7 +298,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
                         let shouldDecode = image?.images != nil ? false : true
                         if shouldDecode {
                             if shouldDecompressImages {
-                                image = XMWebImageCodersManager.shared.decompressed(image: image, data: &imageData!, options: [XMWebImageCoderScaleDownLargeImagesKey: options.contains(.scaleDownLargeImages)])
+                                image = XMWebImageCodersManager.shared.decompressed(image: image, data: &imageData!, isScaleDownLargeImages: options.contains(.scaleDownLargeImages))
                             }
                         }
                         if image?.size == CGSize.zero {

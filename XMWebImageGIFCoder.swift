@@ -12,7 +12,7 @@ class XMWebImageGIFCoder: NSObject,XMWebImageCoder {
        return (data?.xm_imageFormat == .GIF) == true
     }
 
-    func decompressed(image: UIImage?, data: inout Data, options: Dictionary<String, Any>?) -> UIImage? {
+    func decompressed(image: UIImage?, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage? {
         return image
     }
     func decodedImage(data: Data?) -> UIImage? {
