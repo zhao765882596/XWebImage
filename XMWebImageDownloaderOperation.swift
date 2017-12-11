@@ -223,7 +223,7 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
     }
 
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
-        guard let httpResponse = response as? HTTPURLResponse, (httpResponse.statusCode < 400 && httpResponse.statusCode != 304) else {
+        if (response as? HTTPURLResponse) != nil && (response as? HTTPURLResponse)!.statusCode < 400 && (response as? HTTPURLResponse)!.statusCode != 304 {
             let expected = response.expectedContentLength > 0 ? response.expectedContentLength : 0
             expectedSize = Int(expected)
             self.imageData = Data.init(count: expectedSize)
@@ -234,15 +234,18 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
             self.response = response
             completionHandler(.allow)
             return
-        }
-        if httpResponse.statusCode == 304 {
-            cancel()
+
         } else {
-            dataTask.cancel()
+            if (response as? HTTPURLResponse)?.statusCode == 304 {
+                cancel()
+            } else {
+                dataTask.cancel()
+            }
+            callCompletionBlocks(image: nil, imageData: nil, error: NSError.init(domain: NSURLErrorDomain, code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil),isFinished: true)
+            done()
+            completionHandler(.allow)
         }
-        callCompletionBlocks(image: nil, imageData: nil, error: NSError.init(domain: NSURLErrorDomain, code: httpResponse.statusCode, userInfo: nil),isFinished: true)
-        done()
-        completionHandler(.allow)
+
     }
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         if imageData == nil {

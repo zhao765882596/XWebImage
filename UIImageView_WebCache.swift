@@ -6,17 +6,17 @@
 //
 
 import Foundation
-extension UIImageView {
-    func xm_setImage(url: URLConvertible?, placeholder: UIImage? = nil, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
+public extension UIImageView {
+    public func xm_setImage(url: URLConvertible?, placeholder: UIImage? = nil, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
         xm_internalSetImage(url: url, placeholder: placeholder, operationKey: nil, setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock)
     }
-    func xm_setImageWithPreviousCachedImage(url: URLConvertible?, placeholder: UIImage? = nil, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
+    public func xm_setImageWithPreviousCachedImage(url: URLConvertible?, placeholder: UIImage? = nil, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
         let key = XMWebImageManager.shared.cacheKey(url: url?.asURL())
         let lastPreviousCachedImage = XMImageCache.shared.imageFromCache(forKey: key ?? "")
 
         xm_internalSetImage(url: url, placeholder: lastPreviousCachedImage ?? placeholder, operationKey: nil, setImageBlock: nil, progressBlock: progressBlock, completedBlock: completedBlock)
     }
-    func xm_setAnimationImages(urls: Array<URL>) {
+    public func xm_setAnimationImages(urls: Array<URL>) {
         xm_cancelCurrentAnimationImagesLoad()
         var operationsArray: Array<XMWebImageOperation> = []
 
@@ -44,10 +44,10 @@ extension UIImageView {
         }
         xm_setImageLoad(operation: operationsArray, forKey: "UIImageViewAnimationImages")
     }
-    func xm_cancelCurrentAnimationImagesLoad() {
+    public func xm_cancelCurrentAnimationImagesLoad() {
         xm_cancelImageLoadOperation(withKey: "UIImageViewAnimationImages")
     }
-    func xm_setHighlightedImage(url: URLConvertible?, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
+    public func xm_setHighlightedImage(url: URLConvertible?, options: XMWebImageOptions = [], progressBlock: XMWebImageDownloaderProgress? = nil, completedBlock: XMExternalCompletion? = nil) {
         xm_internalSetImage(url: url, placeholder: nil, options: options, operationKey: "UIImageViewImageOperationHighlighted", setImageBlock: {[weak self] (image, imageData) in
             self?.highlightedImage = image
         }, progressBlock: progressBlock, completedBlock: completedBlock)
