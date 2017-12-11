@@ -25,6 +25,8 @@ public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
     private var _width: CGFloat = 0
     private var _height: CGFloat = 0
     private var _imageSource: CGImageSource? = nil
+    private var _orientation: UIImageOrientation = .up
+
 
     public func canDecode(data: Data?) -> Bool {
         if data != nil {
@@ -59,7 +61,55 @@ public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
     }
 
     public func incrementallyDecodedImage(data: Data?, isFinished: Bool) -> UIImage? {
-        return nil
+        guard let imageData = data else { return nil }
+        var image: UIImage? = nil
+
+        if _imageSource == nil {
+            _imageSource = CGImageSourceCreateIncremental(nil)
+        }
+        CGImageSourceUpdateData(_imageSource!, imageData as CFData, isFinished)
+        if _width + _height == 0.0 {
+            let properties = CGImageSourceCopyPropertiesAtIndex(_imageSource!, 0, nil)
+            if properties != nil {
+                var orientationValue = 1
+                var val = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyPixelHeight.hashValue))
+                if val != nil {
+                    _height = CGFloat.init(Int.init(bitPattern: val))
+                }
+                val = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyPixelWidth.hashValue))
+                if val != nil {
+                    _width = CGFloat.init(Int.init(bitPattern: val))
+                }
+                val = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyOrientation.hashValue))
+                if val != nil {
+                    orientationValue = Int.init(bitPattern: val)
+                }
+                _orientation = XMWebImageCoderHelper.imageOrientation(exifOrientation: orientationValue)
+            }
+        }
+        if _width + _height > 0.0 {
+            var partialImageRef = CGImageSourceCreateImageAtIndex(_imageSource!, 0, nil)
+            if partialImageRef != nil {
+                let partialHeight = partialImageRef?.height ?? 0
+                let colorSpace = XMCGColorSpaceGetDeviceRGB
+                let bmContext = CGContext(data: nil, width: Int(_width), height: Int(_height), bitsPerComponent: 8, bytesPerRow: Int(_width * 4), space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)
+                if bmContext != nil {
+                    bmContext?.draw(partialImageRef!, in: CGRect.init(x: 0, y: 0, width: Int(_width), height: partialHeight))
+                    partialImageRef = bmContext?.makeImage()
+                } else {
+                    partialImageRef = nil
+                }
+            }
+            if partialImageRef != nil {
+                image = UIImage.init(cgImage: partialImageRef!)
+            }
+        }
+        if isFinished {
+            if _imageSource != nil {
+                _imageSource = nil
+            }
+        }
+        return image
     }
     public func decompressed(image: UIImage? = nil, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage? {
         if isScaleDownLargeImages == false {
@@ -76,12 +126,85 @@ public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
         }
     }
     func xm_decompressedAndScaledDownImage(image: UIImage?) -> UIImage? {
-        return nil
+        if shouldDecode(image: image) == false {
+            return image
+        }
+        if shouldScale(image: image) == false {
+            return xm_decompressedImage(image: image)
+        }
+        var destContext: CGContext? = nil
+
+        return autoreleasepool(invoking: { [weak self]() -> UIImage? in
+            guard let cgImage = image?.cgImage else { return nil }
+            let sourceTotalPixels = cgImage.width * cgImage.height
+            let imageScale = destTotalPixels / CGFloat(sourceTotalPixels)
+            let destResolution = CGSize.init(width: imageScale * CGFloat(cgImage.width), height: imageScale * CGFloat(cgImage.height))
+            let colorspace = self?.colorSpace(imageRef: cgImage)
+            let bytesPerRow = bytesPerPixel * destResolution.width
+            destContext = CGContext(data: nil, width: Int(destResolution.width), height: Int(destResolution.height), bitsPerComponent: 8, bytesPerRow: Int(bytesPerRow), space: colorspace!, bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)
+            if destContext == nil {
+                return nil
+            }
+            destContext?.interpolationQuality = .high
+            var sourceTile = CGRect.zero
+            sourceTile.size.width = CGFloat(cgImage.width)
+            sourceTile.size.height = tileTotalPixels / CGFloat(cgImage.height)
+            var destTile = CGRect.zero
+            destTile.size.width = destResolution.width
+            destTile.size.height = sourceTile.size.height * imageScale
+            let sourceSeemOverlap = ((destSeemOverlap / destResolution.height) * CGFloat(cgImage.height))
+            var sourceTileImageRef: CGImage? = nil
+            var iterations = cgImage.height / Int( sourceTile.size.height)
+            let remainder = cgImage.height % Int(sourceTile.size.height)
+            if remainder == 0 {
+                iterations = iterations + 1
+            }
+            let sourceTileHeightMinusOverlap = sourceTile.size.height;
+            sourceTile.size.height = sourceTile.size.height + sourceSeemOverlap
+            destTile.size.height = destTile.size.height + destSeemOverlap
+            for y in 0 ..< iterations {
+                sourceTile.origin.y = CGFloat(y) * sourceTileHeightMinusOverlap + sourceSeemOverlap
+                destTile.origin.y = destResolution.height - (CGFloat( y + 1 ) * sourceTileHeightMinusOverlap * imageScale + destSeemOverlap)
+                sourceTileImageRef = cgImage.cropping(to: sourceTile)
+                if( y == iterations - 1 && remainder != 0 ) {
+                    var dify = destTile.size.height;
+                    destTile.size.height = CGFloat(cgImage.height) * imageScale;
+                    dify = dify - destTile.size.height;
+                    destTile.origin.y = destTile.origin.y + dify;
+                }
+                if sourceTileImageRef != nil {
+                    destContext?.draw(sourceTileImageRef!, in: destTile)
+                }
+            }
+
+            let destcgImage = destContext?.makeImage();
+            if destcgImage  == nil {
+                return image
+            }
+            let destImage = UIImage.init(cgImage: destcgImage!, scale: image?.scale ?? 1.0, orientation: image?.imageOrientation ?? .up)
+            return destImage
+        })
 
     }
     func xm_decompressedImage(image: UIImage?) -> UIImage? {
-        return nil
+        if shouldDecode(image: image) == false {
+            return image
+        }
 
+        guard let cgImage = image?.cgImage else { return nil }
+        return autoreleasepool {[weak self]() -> UIImage? in
+            let colorspace = self?.colorSpace(imageRef: cgImage)
+            let bmContext = CGContext(data: nil, width: cgImage.width, height: cgImage.height, bitsPerComponent: 8, bytesPerRow: Int(bytesPerPixel) * cgImage.width, space: colorspace!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+            if bmContext == nil {
+                return image
+            }
+            bmContext?.draw(cgImage, in: CGRect.init(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
+
+            if let imageRefWithoutAlpha = bmContext?.makeImage() {
+                return UIImage.init(cgImage: imageRefWithoutAlpha, scale: image?.scale ?? 1.0, orientation: image?.imageOrientation ?? .up)
+            }
+            return nil
+        }
     }
     public func canEncode(format: XMImageFormat) -> Bool {
         if format == .webP {
