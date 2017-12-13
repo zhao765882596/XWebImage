@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../XMWebImageImageIOCoder.swift"
-            timestampString = "534675115.643736"
+            timestampString = "534844495.027983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "decodedImage(data:)"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "encodedData(image:format:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -65,13 +65,22 @@ public class XMWebImageCodersManager: NSObject, XMWebImageCoder {
         }
         return nil
     }
-    public func decompressed(image: UIImage?, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage? {
+    public func decompressed(image: UIImage?) -> UIImage? {
+        if image == nil {
+            return nil
+        }
+        for coder in _coders {
+            return coder.decompressed(image:image)
+        }
+        return nil
+    }
+    public func decompressed(image: UIImage?, data: inout Data) -> UIImage? {
         if image == nil {
             return nil
         }
         for coder in _coders {
             if coder.canDecode(data: data) {
-                return coder.decompressed(image:image, data: &data, isScaleDownLargeImages:isScaleDownLargeImages)
+                return coder.decompressed(image:image, data: &data)
             }
         }
         return nil

@@ -226,11 +226,11 @@ public class XMImageCache {
     }
 
     func diskImage(forKey key: String) -> UIImage? {
-        guard var data = diskImageDataBySearchingAllPaths(forKey: key) else { return nil }
+        guard let data = diskImageDataBySearchingAllPaths(forKey: key) else { return nil }
         var image = XMWebImageCodersManager.shared.decodedImage(data: data)
         image = scaled(image: image, forKey: key)
         if config.shouldDecompressImages {
-            image = XMWebImageCodersManager.shared.decompressed(image: image, data: &data, isScaleDownLargeImages:  false)
+            image = XMWebImageCodersManager.shared.decompressed(image: image)
         }
         return image
     }

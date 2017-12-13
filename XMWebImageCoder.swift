@@ -10,7 +10,8 @@ import Foundation
 public protocol XMWebImageCoder: NSObjectProtocol {
     func canDecode(data: Data?) -> Bool
     func decodedImage(data: Data?) -> UIImage?
-    func decompressed(image: UIImage?, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage?
+    func decompressed(image: UIImage?) -> UIImage?
+    func decompressed(image: UIImage?, data: inout Data) -> UIImage?
     func canEncode(format: XMImageFormat) -> Bool
     func encodedData(image: UIImage?, format: XMImageFormat) -> Data?
 }
@@ -19,6 +20,9 @@ public extension XMWebImageCoder {
         return false
     }
     func decodedImage(data: Data?) -> UIImage? {
+        return nil
+    }
+    func decompressed(image: UIImage?) -> UIImage? {
         return nil
     }
     func decompressed(image: UIImage?, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage? {

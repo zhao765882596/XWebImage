@@ -69,21 +69,19 @@ public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
         }
         CGImageSourceUpdateData(_imageSource!, imageData as CFData, isFinished)
         if _width + _height == 0.0 {
-            let properties = CGImageSourceCopyPropertiesAtIndex(_imageSource!, 0, nil)
+            let properties = CGImageSourceCopyPropertiesAtIndex(_imageSource!, 0, nil) as? Dictionary<String, Any>
             if properties != nil {
-                var orientationValue = 1
-                var val = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyPixelHeight.hashValue))
+
+                var val = properties?[kCGImagePropertyPixelHeight as String] as? CGFloat
                 if val != nil {
-                    _height = CGFloat.init(Int.init(bitPattern: val))
+                    _height = val!
                 }
-                val = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyPixelWidth.hashValue))
+                val = properties?[kCGImagePropertyPixelWidth as String] as? CGFloat
+
                 if val != nil {
-                    _width = CGFloat.init(Int.init(bitPattern: val))
+                    _width = val!
                 }
-                val = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyOrientation.hashValue))
-                if val != nil {
-                    orientationValue = Int.init(bitPattern: val)
-                }
+                let orientationValue = properties?[kCGImagePropertyOrientation as String] as? Int ?? 1
                 _orientation = XMWebImageCoderHelper.imageOrientation(exifOrientation: orientationValue)
             }
         }
@@ -111,19 +109,18 @@ public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
         }
         return image
     }
-    public func decompressed(image: UIImage? = nil, data: inout Data, isScaleDownLargeImages: Bool) -> UIImage? {
-        if isScaleDownLargeImages == false {
-            return xm_decompressedImage(image: image)
-        } else {
-            let scaledDownImage = xm_decompressedAndScaledDownImage(image: image)
-            if scaledDownImage != nil && scaledDownImage?.size != image?.size {
-                let imageData = self.encodedData(image: scaledDownImage, format: data.xm_imageFormat)
-                if imageData != nil {
+    public func decompressed(image: UIImage?) -> UIImage? {
+        return xm_decompressedImage(image: image)
+    }
+    public func decompressed(image: UIImage?, data: inout Data) -> UIImage? {
+        let scaledDownImage = xm_decompressedAndScaledDownImage(image: image)
+        if scaledDownImage != nil && scaledDownImage?.size != image?.size {
+            let imageData = self.encodedData(image: scaledDownImage, format: data.xm_imageFormat)
+            if imageData != nil {
                     data = imageData!
-                }
             }
-            return scaledDownImage
         }
+        return scaledDownImage
     }
     func xm_decompressedAndScaledDownImage(image: UIImage?) -> UIImage? {
         if shouldDecode(image: image) == false {
@@ -256,10 +253,9 @@ public class XMWebImageImageIOCoder: NSObject, XMWebImageProgressiveCoder {
         var result = UIImageOrientation.up
         let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil)
         if imageSource != nil {
-            let properties = CGImageSourceCopyPropertiesAtIndex(imageSource!, 0, nil)
+            let properties = CGImageSourceCopyPropertiesAtIndex(imageSource!, 0, nil) as? Dictionary<String, Any>
             if properties != nil {
-                let exifOrientation = CFDictionaryGetValue(properties!, UnsafeRawPointer.init(bitPattern: kCGImagePropertyOrientation.hashValue))
-                result = XMWebImageCoderHelper.imageOrientation(exifOrientation: Int.init(bitPattern: exifOrientation))
+                result = XMWebImageCoderHelper.imageOrientation(exifOrientation: properties?[kCGImagePropertyOrientation as String] as? Int ?? 1)
             }
         }
         return result

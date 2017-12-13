@@ -39,13 +39,12 @@ public extension UIImage {
     }
     static func decodedImage(image: UIImage?) -> UIImage? {
         guard let tmpImage = image else { return nil }
-        var data = Data()
-        return XMWebImageCodersManager.shared.decompressed(image: tmpImage, data: &data, isScaleDownLargeImages: false)
+        return XMWebImageCodersManager.shared.decompressed(image:tmpImage)
+
     }
     static func decodedAndScaledDownImage(image: UIImage?) -> UIImage? {
         guard let tmpImage = image else { return nil }
-        var data = Data()
-        return XMWebImageCodersManager.shared.decompressed(image: tmpImage, data: &data, isScaleDownLargeImages: false)
+        return XMWebImageCodersManager.shared.decompressed(image:tmpImage)
     }
 
     
