@@ -100,6 +100,9 @@ public  extension UIView {
             let queue = isShouldUseGlobalQueue ? DispatchQueue.global() : DispatchQueue.main
             queue.async {
                 sself.set(image: targetImage, imageData: targetData, setImageBlock: setImageBlock)
+                DispatchQueue.main.async {
+                    callCompletedBlockClojure()
+                }
             }
         }
         xm_setImageLoad(operation: operation, forKey: validOperationKey)
