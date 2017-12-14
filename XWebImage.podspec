@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XWebImage'
-  s.version          = '0.1'
+  s.version          = '0.2'
   s.summary          = 'XWebImage is SDWebImage Swift imitate.'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/zhao765882596/XWebImage.git'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'ming' => 'xiaoming.zhao@mljr.com' }
+  s.author           = { 'ming' => 'z4015@qq.com' }
   s.source           = { :git => 'https://github.com/zhao765882596/XWebImage.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
