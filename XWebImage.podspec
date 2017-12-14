@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XWebImage'
-  s.version          = '0.2'
+  s.version          = '0.3'
   s.summary          = 'XWebImage is SDWebImage Swift imitate.'
 
 # This description is used to generate tags and improve search results.
