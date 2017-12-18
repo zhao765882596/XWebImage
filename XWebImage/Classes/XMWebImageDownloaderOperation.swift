@@ -98,14 +98,14 @@ public class XMWebImageDownloaderOperation:Operation, XMWebImageDownloaderOperat
     }
     func callbacks(forKey key: String) -> Array<Any> {
         var callbacks: Array<Any> = []
-        barrierQueue.sync {
+//        barrierQueue.sync {
             for callbackBlock in self.tokens {
                 guard let callback = callbackBlock.downloadOperationCancelToken?[key] else {
                     continue
                 }
                 callbacks.append(callback)
             }
-        }
+//        }
         return callbacks
     }
     public func cancel(token: XMWebImageDownloadToken?) -> Bool {
